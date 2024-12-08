@@ -648,10 +648,17 @@ void CWorkspace::rename(const std::string& name) {
 }
 
 void CWorkspace::updateWindows() {
+    bool hasFull = false;
+    
     for (auto const& w : g_pCompositor->m_vWindows) {
         if (!w->m_bIsMapped || w->m_pWorkspace != m_pSelf)
             continue;
 
         w->updateDynamicRules();
+
+        if (w->isFullscreen())
+            hasFull = true;
     }
+
+    m_bHasFullscreenWindow = hasFull;
 }
